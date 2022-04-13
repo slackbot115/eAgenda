@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace eAgenda.ModuloTarefa
+namespace eAgenda.ModuloCompromisso
 {
-    public class RepositorioTarefa : RepositorioBase<Tarefa>
+    public class RepositorioCompromisso : RepositorioBase<Compromisso>
     {
     }
 }

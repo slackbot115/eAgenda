@@ -13,7 +13,7 @@ namespace eAgenda.ModuloTarefa
         private DateTime dataCriacao;
         private DateTime dataConclusao;
         private TipoRelevancia tipoRelevancia;
-        private int percentualConcluido;
+        private double percentualConcluido;
         private bool status = false;
         private List<Item> itens;
 
@@ -34,7 +34,7 @@ namespace eAgenda.ModuloTarefa
         public DateTime DataCriacao { get => dataCriacao; }
         public DateTime DataConclusao { get => dataConclusao; }
         public TipoRelevancia TipoRelevancia { get => tipoRelevancia; }
-        public int PercentualConcluido { get => percentualConcluido; }
+        public double PercentualConcluido { get => percentualConcluido; }
         public bool Status { get => status; }
         public List<Item> Itens { get => itens; }
 
@@ -46,11 +46,40 @@ namespace eAgenda.ModuloTarefa
                 "Data de Criação: " + DataCriacao + Environment.NewLine +
                 "Data de Conclusão: " + DataConclusao + Environment.NewLine +
                 "\nItens: \n" + ListarItensTarefa() +
-                $"Percentual concluído: {PercentualConcluido}%" + Environment.NewLine +
+                $"Percentual concluído: {ObterCompletude(Itens)}%" + Environment.NewLine +
                 "Finalizado?: " + Status + Environment.NewLine;
         }
 
-        private string ListarItensTarefa()
+        private double ObterCompletude(List<Item> itensTarefa)
+        {
+            int contadorPendentes = 0;
+            double completude = 0;
+            double frequenciaAcrescimo = 100 / itensTarefa.Count;
+
+            foreach (Item item in itensTarefa)
+            {
+                if (item.Status == false)
+                    contadorPendentes++;
+                else
+                {
+                    if(contadorPendentes <= 0)
+                        completude += frequenciaAcrescimo;
+                    else
+                        contadorPendentes--;
+                }
+            }
+
+            percentualConcluido = completude;
+            if (contadorPendentes == 0 || completude == 100)
+            {
+                status = true;
+                percentualConcluido = 100;
+            }
+
+            return percentualConcluido;
+        }
+
+        public string ListarItensTarefa()
         {
             string itensString = "";
 

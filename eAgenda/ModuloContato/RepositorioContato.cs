@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace eAgenda.ModuloTarefa
+namespace eAgenda.ModuloContato
 {
-    public class RepositorioTarefa : RepositorioBase<Tarefa>
+    public class RepositorioContato : RepositorioBase<Contato>
     {
     }
 }

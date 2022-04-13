@@ -1,4 +1,6 @@
-﻿using eAgenda.ModuloTarefa;
+﻿using eAgenda.ModuloCompromisso;
+using eAgenda.ModuloContato;
+using eAgenda.ModuloTarefa;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +12,25 @@ namespace eAgenda.Compartilhado
     public class TelaMenuPrincipal
     {
         private RepositorioTarefa repositorioTarefa;
-        private RepositorioItem repositorioItem;
+        private readonly RepositorioItem repositorioItem;
         private TelaCadastroTarefa telaCadastroTarefa;
+
+        private RepositorioContato repositorioContato;
+        private TelaCadastroContato telaCadastroContato;
+
+        private RepositorioCompromisso repositorioCompromisso;
+        private TelaCadastroCompromisso telaCadastroCompromisso;
 
         public TelaMenuPrincipal(Notificador notificador)
         {
             repositorioTarefa = new RepositorioTarefa();
             telaCadastroTarefa = new TelaCadastroTarefa(repositorioTarefa, repositorioItem, notificador);
+
+            repositorioContato = new RepositorioContato();
+            telaCadastroContato = new TelaCadastroContato(repositorioContato, notificador);
+
+            repositorioCompromisso = new RepositorioCompromisso();
+            telaCadastroCompromisso = new TelaCadastroCompromisso(repositorioCompromisso, repositorioContato, telaCadastroContato, notificador);
         }
 
         public string MostrarOpcoes()
@@ -28,6 +42,8 @@ namespace eAgenda.Compartilhado
             Console.WriteLine();
 
             Console.WriteLine("Digite 1 para Gerenciar Tarefas");
+            Console.WriteLine("Digite 2 para Gerenciar Contatos");
+            Console.WriteLine("Digite 3 para Gerenciar Compromissos");
 
             Console.WriteLine("Digite s para sair");
 
@@ -44,6 +60,10 @@ namespace eAgenda.Compartilhado
 
             if (opcao == "1")
                 tela = telaCadastroTarefa;
+            else if (opcao == "2")
+                tela = telaCadastroContato;
+            else if (opcao == "3")
+                tela = telaCadastroCompromisso;
 
             return tela;
         }
