@@ -15,6 +15,7 @@ namespace eAgenda.ModuloCompromisso
         private DateTime dataCompromisso;
         private string horaInicio;
         private string horaTermino;
+        private bool status = false;
         private Contato contato;
 
         public Compromisso(string assunto, string local, DateTime dataCompromisso, string horaInicio, string horaTermino, Contato contato)
@@ -33,6 +34,7 @@ namespace eAgenda.ModuloCompromisso
         public string HoraInicio { get => horaInicio; set => horaInicio = value; }
         public string HoraTermino { get => horaTermino; set => horaTermino = value; }
         public Contato Contato { get => contato; set => contato = value; }
+        public bool Status { get => status; set => status = value; }
 
         public override string ToString()
         {
@@ -42,7 +44,17 @@ namespace eAgenda.ModuloCompromisso
                 "Contato: " + Contato.Nome + Environment.NewLine +
                 "Data do Compromisso: " + DataCompromisso + Environment.NewLine +
                 "Hora de Inicio: " + HoraInicio + Environment.NewLine +
-                "Hora de Termino: " + HoraTermino + Environment.NewLine;
+                "Hora de Termino: " + HoraTermino + Environment.NewLine +
+                "Finalizado?: " + Status + Environment.NewLine;
         }
+
+        public void AlterarStatusCompromisso()
+        {
+            if (status == false)
+                status = true;
+            else
+                status = false;
+        }
+
     }
 }

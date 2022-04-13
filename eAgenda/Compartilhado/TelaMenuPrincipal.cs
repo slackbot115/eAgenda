@@ -13,24 +13,24 @@ namespace eAgenda.Compartilhado
     {
         private RepositorioTarefa repositorioTarefa;
         private readonly RepositorioItem repositorioItem;
-        private TelaCadastroTarefa telaCadastroTarefa;
+        private ModuloTarefa.TelaCadastroTarefa telaCadastroTarefa;
 
         private RepositorioContato repositorioContato;
         private TelaCadastroContato telaCadastroContato;
 
         private RepositorioCompromisso repositorioCompromisso;
-        private TelaCadastroCompromisso telaCadastroCompromisso;
+        private ModuloCompromisso.TelaCadastroCompromisso telaCadastroCompromisso;
 
         public TelaMenuPrincipal(Notificador notificador)
         {
             repositorioTarefa = new RepositorioTarefa();
-            telaCadastroTarefa = new TelaCadastroTarefa(repositorioTarefa, repositorioItem, notificador);
+            telaCadastroTarefa = new ModuloTarefa.TelaCadastroTarefa(repositorioTarefa, repositorioItem, notificador);
 
             repositorioContato = new RepositorioContato();
             telaCadastroContato = new TelaCadastroContato(repositorioContato, notificador);
 
             repositorioCompromisso = new RepositorioCompromisso();
-            telaCadastroCompromisso = new TelaCadastroCompromisso(repositorioCompromisso, repositorioContato, telaCadastroContato, notificador);
+            telaCadastroCompromisso = new ModuloCompromisso.TelaCadastroCompromisso(repositorioCompromisso, repositorioContato, telaCadastroContato, notificador);
         }
 
         public string MostrarOpcoes()

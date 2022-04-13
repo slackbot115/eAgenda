@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace eAgenda.ModuloCompromisso
 {
-    public class TelaCadastroCompromisso : TelaBase, ITelaCadastravel
+    public class TelaCadastroCompromisso : TelaBase
     {
         private readonly RepositorioCompromisso repositorioCompromisso;
         private readonly Notificador notificador;
@@ -25,6 +25,24 @@ namespace eAgenda.ModuloCompromisso
             this.notificador = notificador;
         }
 
+        public override string MostrarOpcoes()
+        {
+            MostrarTitulo(Titulo);
+
+            Console.WriteLine("Digite 1 para Inserir");
+            Console.WriteLine("Digite 2 para Editar");
+            Console.WriteLine("Digite 3 para Excluir");
+            Console.WriteLine("Digite 4 para Visualizar");
+            Console.WriteLine("Digite 5 para Alterar status de um compromisso");
+            Console.WriteLine("Digite 6 para Visualizar compromissos agrupados");
+            Console.WriteLine("Digite 7 para Visualizar por período");
+
+            Console.WriteLine("Digite s para sair");
+
+            string opcao = Console.ReadLine();
+
+            return opcao;
+        }
         public void Inserir()
         {
             MostrarTitulo("Inserindo Compromisso");
@@ -117,6 +135,178 @@ namespace eAgenda.ModuloCompromisso
             Console.ReadLine();
 
             return true;
+        }
+
+        public bool VisualizarCompromissosPorPeriodo()
+        {
+            List<Compromisso> compromissos = repositorioCompromisso.SelecionarTodos();
+
+            if (compromissos.Count == 0)
+            {
+                notificador.ApresentarMensagem("Nenhum compromisso disponível.", TipoMensagem.Atencao);
+                return false;
+            }
+
+            Console.WriteLine("Como deseja visualiar os compromissos futuros?");
+            Console.WriteLine("1 - No dia atual");
+            Console.WriteLine("2 - Na semana atual");
+            Console.WriteLine("3 - No mês atual");
+            Console.WriteLine("4 - No ano atual");
+            Console.WriteLine("5 - Entre certo periodo");
+            Console.Write("Digite a opção desejada: ");
+            string op = Console.ReadLine();
+            switch (op)
+            {
+                case "1":
+                    VisualizarCompromissosDiarios();
+                    break;
+                case "2":
+                    VisualizarCompromissosSemanais();
+                    break;
+                case "3":
+                    VisualizarCompromissosMensais();
+                    break;
+                case "4":
+                    VisualizarCompromissosAnuais();
+                    break;
+                case "5":
+                    VisualizarCompromissoEmPeriodoEspecifico();
+                    break;
+            }
+
+            Console.ReadKey();
+            return true;
+        }
+
+        private void VisualizarCompromissoEmPeriodoEspecifico()
+        {
+            List<Compromisso> compromissos = repositorioCompromisso.SelecionarTodos();
+
+            Console.WriteLine("Digite a data inicial do periodo: ");
+            DateTime dataInicial = DateTime.Parse(Console.ReadLine());
+
+            Console.WriteLine("Digite a data final do periodo: ");
+            DateTime dataFinal = DateTime.Parse(Console.ReadLine());
+
+            Console.WriteLine($"Compromissos entre {dataInicial} e {dataFinal}: \n");
+            foreach (Compromisso compromisso in compromissos)
+            {
+                if (compromisso.DataCompromisso > dataInicial && compromisso.DataCompromisso < dataFinal)
+                    Console.WriteLine(compromisso.ToString());
+            }
+        }
+
+        private void VisualizarCompromissosAnuais()
+        {
+            List<Compromisso> compromissos = repositorioCompromisso.SelecionarTodos();
+
+            Console.WriteLine("Compromissos do ano: \n");
+            foreach (Compromisso compromisso in compromissos)
+            {
+                if (compromisso.DataCompromisso.Year == DateTime.Now.Year)
+                    Console.WriteLine(compromisso.ToString());
+            }
+        }
+
+        private void VisualizarCompromissosMensais()
+        {
+            List<Compromisso> compromissos = repositorioCompromisso.SelecionarTodos();
+
+            Console.WriteLine("Compromissos do mês: \n");
+            foreach (Compromisso compromisso in compromissos)
+            {
+                if (compromisso.DataCompromisso.Month == DateTime.Now.Month)
+                    Console.WriteLine(compromisso.ToString());
+            }
+        }
+
+        private void VisualizarCompromissosSemanais()
+        {
+            List<Compromisso> compromissos = repositorioCompromisso.SelecionarTodos();
+
+            Console.WriteLine("Compromissos da semana: \n");
+            foreach (Compromisso compromisso in compromissos)
+            {
+                if (compromisso.DataCompromisso.AddDays((double)(7 - compromisso.DataCompromisso.DayOfWeek)).Date.Equals(DateTime.Now.AddDays((double)(7 - DateTime.Now.DayOfWeek)).Date))
+                    Console.WriteLine(compromisso.ToString());
+            }
+        }
+
+        private void VisualizarCompromissosDiarios()
+        {
+            List<Compromisso> compromissos = repositorioCompromisso.SelecionarTodos();
+
+            Console.WriteLine("Compromissos do dia: \n");
+            foreach (Compromisso compromisso in compromissos)
+            {
+                if (compromisso.DataCompromisso.Day == DateTime.Now.Day)
+                    Console.WriteLine(compromisso.ToString());
+            }
+        }
+
+        public bool VisualizarCompromissosAgrupados()
+        {
+            List<Compromisso> compromissos = repositorioCompromisso.SelecionarTodos();
+
+            MostrarTitulo("Compromissos agrupados");
+
+            if (compromissos.Count == 0)
+            {
+                notificador.ApresentarMensagem("Nenhum compromisso disponível.", TipoMensagem.Atencao);
+                return false;
+            }
+
+            Console.WriteLine("COMPROMISSOS PENDENTES");
+            foreach (Compromisso compromisso in compromissos)
+            {
+                if (compromisso.Status == false)
+                {
+                    Console.WriteLine("ID: " + compromisso.id);
+                    Console.WriteLine("Assunto: " + compromisso.Assunto);
+                    Console.WriteLine("Local: " + compromisso.Local);
+                    Console.WriteLine("Contato: " + compromisso.Contato.Nome);
+                    Console.WriteLine("Data do Compromisso: " + compromisso.DataCompromisso);
+                    Console.WriteLine($"Hora de Início: {compromisso.HoraInicio}\t Hora de Término {compromisso.HoraTermino}");
+                }
+            }
+
+            Console.WriteLine("\nCOMPROMISSOS FINALIZADOS");
+            foreach (Compromisso compromisso in compromissos)
+            {
+                if (compromisso.Status == true)
+                {
+                    Console.WriteLine("ID: " + compromisso.id);
+                    Console.WriteLine("Assunto: " + compromisso.Assunto);
+                    Console.WriteLine("Contato: " + compromisso.Contato.Nome);
+                    Console.WriteLine("Data do Compromisso: " + compromisso.DataCompromisso);
+                }
+            }
+
+            Console.ReadLine();
+
+            return true;
+        }
+
+        public void AlterarStatusCompromisso()
+        {
+            bool temCompromissosDisponiveis = telaCadastroContato.VisualizarRegistros("");
+
+            if (!temCompromissosDisponiveis)
+            {
+                notificador.ApresentarMensagem("Você precisa cadastrar um compromisso antes de alterar seu status!", TipoMensagem.Atencao);
+                return;
+            }
+
+            Console.Write("Digite o ID do compromisso: ");
+            int numCompromissoSelecionado = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine();
+
+            Compromisso compromissoSelecionado = repositorioCompromisso.SelecionarRegistro(x => x.id == numCompromissoSelecionado);
+
+            compromissoSelecionado.AlterarStatusCompromisso();
+
+            notificador.ApresentarMensagem("Status de compromisso alterado com sucesso!", TipoMensagem.Sucesso);
         }
 
         private Compromisso ObterCompromisso(Contato contato)
