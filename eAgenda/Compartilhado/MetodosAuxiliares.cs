@@ -7,8 +7,47 @@ using System.Threading.Tasks;
 
 namespace eAgenda.Compartilhado
 {
-    public static class MetodosAuxiliares
+    public class MetodosAuxiliares
     {
+        public static string ValidarHorario(string mensagem)
+        {
+            string horas;
+            while (true)
+            {
+                Console.Write(mensagem);
+                horas = Console.ReadLine();
+                try
+                {
+                    if (FormatarHoras(horas) != null)
+                    {
+                        return FormatarHoras(horas);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Horario inválido, digite novamente...");
+                        continue;
+                    }
+                }
+                catch
+                {
+                    Console.WriteLine("Input inválido, tente novamente...");
+                }
+            }
+        }
+
+        private static string FormatarHoras(string horas)
+        {
+            var verificarRegex = Regex.Match(horas, @"^([0-1][0-9]|2[0-4])\:[0-5][0-9]$");
+            if (verificarRegex.Success)
+            {
+                return Regex.Replace(horas, @"^(\d{2})[ -]?(\d{5})[ -]?(\d{4})", @"$1:$2");
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public static string ValidarEmail()
         {
             string email;
@@ -55,6 +94,7 @@ namespace eAgenda.Compartilhado
             {
                 Console.Write("Digite o número de telefone (DDD + número, sem espaços e parênteses) : ");
                 numero = Console.ReadLine();
+                numero = numero.Replace(" ", "");
                 try
                 {
                     if (numero.Length == 11)

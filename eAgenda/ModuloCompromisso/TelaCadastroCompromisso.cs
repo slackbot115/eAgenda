@@ -256,6 +256,8 @@ namespace eAgenda.ModuloCompromisso
             }
 
             Console.WriteLine("COMPROMISSOS PENDENTES");
+            Console.ForegroundColor = ConsoleColor.Red;
+
             foreach (Compromisso compromisso in compromissos)
             {
                 if (compromisso.Status == false)
@@ -268,8 +270,11 @@ namespace eAgenda.ModuloCompromisso
                     Console.WriteLine($"Hora de Início: {compromisso.HoraInicio}\t Hora de Término {compromisso.HoraTermino}");
                 }
             }
+            Console.ResetColor();
 
             Console.WriteLine("\nCOMPROMISSOS FINALIZADOS");
+            Console.ForegroundColor = ConsoleColor.Green;
+
             foreach (Compromisso compromisso in compromissos)
             {
                 if (compromisso.Status == true)
@@ -280,6 +285,7 @@ namespace eAgenda.ModuloCompromisso
                     Console.WriteLine("Data do Compromisso: " + compromisso.DataCompromisso);
                 }
             }
+            Console.ResetColor();
 
             Console.ReadLine();
 
@@ -315,9 +321,9 @@ namespace eAgenda.ModuloCompromisso
 
             DateTime dataCompromisso = MetodosAuxiliares.ValidarInputDate("Digite a data do compromisso: ");
 
-            string horaInicio = MetodosAuxiliares.ValidarInputString("Digite a hora de inicio do compromisso: ");
+            string horaInicio = MetodosAuxiliares.ValidarHorario("Digite a hora de inicio do compromisso (hh:mm): ");
 
-            string horaTermino = MetodosAuxiliares.ValidarInputString("Digite a hora de termino do compromisso: ");
+            string horaTermino = MetodosAuxiliares.ValidarHorario("Digite a hora de termino do compromisso (hh:mm): ");
 
             return new Compromisso(assunto, local, dataCompromisso, horaInicio, horaTermino, contato);
         }

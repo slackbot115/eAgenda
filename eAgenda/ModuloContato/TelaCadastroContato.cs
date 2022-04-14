@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace eAgenda.ModuloContato
 {
-    public class TelaCadastroContato : TelaBase, ITelaCadastravel
+    public class TelaCadastroContato : TelaBase
     {
         private readonly RepositorioContato repositorioContato;
         private readonly Notificador notificador;
@@ -17,6 +17,23 @@ namespace eAgenda.ModuloContato
         {
             this.repositorioContato = repositorioContato;
             this.notificador = notificador;
+        }
+
+        public override string MostrarOpcoes()
+        {
+            MostrarTitulo(Titulo);
+
+            Console.WriteLine("Digite 1 para Inserir");
+            Console.WriteLine("Digite 2 para Editar");
+            Console.WriteLine("Digite 3 para Excluir");
+            Console.WriteLine("Digite 4 para Visualizar");
+            Console.WriteLine("Digite 5 para Visualizar contatos por cargo");
+
+            Console.WriteLine("Digite s para sair");
+
+            string opcao = MetodosAuxiliares.ValidarInputString("Opção: ");
+
+            return opcao;
         }
 
         public void Inserir()
@@ -95,6 +112,34 @@ namespace eAgenda.ModuloContato
             Console.ReadLine();
 
             return true;
+        }
+
+        public void VisualizarContatosPorCargo()
+        {
+            List<Contato> contatos = repositorioContato.SelecionarTodos();
+
+            IEnumerable<IGrouping<string, Contato>> contatosPorCargo =
+                repositorioContato.SelecionarContatosPorCargo();
+
+            foreach (var cargos in contatosPorCargo)
+            {
+                Console.WriteLine("\nCargo: " + cargos.Key);
+
+                foreach (var contato in contatos)
+                {
+                    if (contato.Cargo == cargos.Key)
+                    {
+                        Console.WriteLine("\tID: " + contato.id);
+                        Console.WriteLine("\tNome: " + contato.Nome);
+                        Console.WriteLine("\tEmail: " + contato.Email);
+                        Console.WriteLine("\tTelefone: " + contato.Telefone);
+                        Console.WriteLine("\tEmpresa: " + contato.Empresa);
+                        Console.WriteLine();
+                    }
+                }
+            }
+
+            Console.ReadKey();
         }
 
         private Contato ObterContato()

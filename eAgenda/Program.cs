@@ -1,5 +1,6 @@
 ﻿using eAgenda.Compartilhado;
 using eAgenda.ModuloCompromisso;
+using eAgenda.ModuloContato;
 using eAgenda.ModuloTarefa;
 using System;
 using System.Collections.Generic;
@@ -42,6 +43,8 @@ namespace eAgenda
                     GerenciarCadastroTarefa(telaSelecionada, opcaoSelecionada);
                 else if (telaSelecionada is TelaCadastroCompromisso)
                     GerenciarCadastroCompromisso(telaSelecionada, opcaoSelecionada);
+                else if (telaSelecionada is TelaCadastroContato)
+                    GerenciarCadastroContato(telaSelecionada, opcaoSelecionada);
             }
         }
 
@@ -104,6 +107,29 @@ namespace eAgenda
 
             else if (opcaoSelecionada == "7")
                 telaCadastroCompromisso.VisualizarCompromissosPorPeriodo();
+        }
+
+        private static void GerenciarCadastroContato(TelaBase telaSelecionada, string opcaoSelecionada)
+        {
+            TelaCadastroContato telaCadastroCompromisso = telaSelecionada as TelaCadastroContato;
+
+            if (telaCadastroCompromisso is null)
+                return;
+
+            if (opcaoSelecionada == "1")
+                telaCadastroCompromisso.Inserir();
+
+            else if (opcaoSelecionada == "2")
+                telaCadastroCompromisso.Editar();
+
+            else if (opcaoSelecionada == "3")
+                telaCadastroCompromisso.Excluir();
+
+            else if (opcaoSelecionada == "4")
+                telaCadastroCompromisso.VisualizarRegistros("Tela");
+
+            else if (opcaoSelecionada == "5")
+                telaCadastroCompromisso.VisualizarContatosPorCargo();
         }
 
     }

@@ -17,21 +17,30 @@ namespace eAgenda.ModuloTarefa
         private bool status = false;
         private List<Item> itens;
 
-        public Tarefa(string titulo, 
-            DateTime dataCriacao, 
+        public Tarefa(string titulo,
             DateTime dataConclusao, 
             TipoRelevancia tipoRelevancia, 
             List<Item> itens)
         {
             this.titulo = titulo;
-            this.dataCriacao = dataCriacao;
+            this.dataCriacao = PassarHora();
             this.dataConclusao = dataConclusao;
             this.tipoRelevancia = tipoRelevancia;
             this.itens = itens;
         }
 
+        private DateTime PassarHora()
+        {
+            if (dataCriacao == DateTime.MinValue)
+            {
+                return DateTime.Now;
+            }
+
+            return dataCriacao;
+        }
+
         public string Titulo { get => titulo; }
-        public DateTime DataCriacao { get => dataCriacao; }
+        public DateTime DataCriacao { get => dataCriacao; set => dataCriacao = value; }
         public DateTime DataConclusao { get => dataConclusao; }
         public TipoRelevancia TipoRelevancia { get => tipoRelevancia; }
         public double PercentualConcluido { get => percentualConcluido; }

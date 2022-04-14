@@ -65,6 +65,9 @@ namespace eAgenda.ModuloTarefa
             int numeroTarefa = ObterNumeroRegistro();
 
             Tarefa tarefaAtualizada = ObterTarefa();
+            Tarefa tarefaAntiga = repositorioTarefa.SelecionarRegistro(numeroTarefa);
+
+            tarefaAtualizada.DataCriacao = tarefaAntiga.DataCriacao;
 
             bool conseguiuEditar = repositorioTarefa.Editar(numeroTarefa, tarefaAtualizada);
 
@@ -171,6 +174,7 @@ namespace eAgenda.ModuloTarefa
             }
 
             Console.WriteLine("TAREFAS PENDENTES");
+            Console.ForegroundColor = ConsoleColor.Red;
             foreach (Tarefa tarefa in tarefas)
             {
                 if (tarefa.Status == false)
@@ -182,8 +186,10 @@ namespace eAgenda.ModuloTarefa
                     Console.WriteLine("Ítens: \n" + tarefa.ListarItensTarefa());
                 }
             }
+            Console.ResetColor();
 
             Console.WriteLine("\nTAREFAS FINALIZADAS");
+            Console.ForegroundColor = ConsoleColor.Green;
             foreach (Tarefa tarefa in tarefas)
             {
                 if (tarefa.Status == true)
@@ -193,6 +199,7 @@ namespace eAgenda.ModuloTarefa
                     Console.WriteLine("Prioridade: " + tarefa.TipoRelevancia);
                 }
             }
+            Console.ResetColor();
 
             Console.ReadLine();
 
@@ -211,6 +218,7 @@ namespace eAgenda.ModuloTarefa
                 return false;
             }
 
+            Console.ForegroundColor = ConsoleColor.Green;
             foreach (Tarefa tarefa in tarefas)
             {
                 if (tarefa.Status == true)
@@ -221,6 +229,7 @@ namespace eAgenda.ModuloTarefa
                     Console.WriteLine("Ítens: \n" + tarefa.ListarItensTarefa());
                 }
             }
+            Console.ResetColor();
 
             Console.ReadLine();
 
@@ -240,6 +249,7 @@ namespace eAgenda.ModuloTarefa
             }
 
             Console.WriteLine("PRIORIDADE ALTA");
+            Console.ForegroundColor = ConsoleColor.Red;
             foreach (Tarefa tarefa in tarefas)
             {
                 if (tarefa.TipoRelevancia == TipoRelevancia.Alta && tarefa.Status == false)
@@ -249,7 +259,10 @@ namespace eAgenda.ModuloTarefa
                     Console.WriteLine("Ítens: \n" + tarefa.ListarItensTarefa());
                 }
             }
+            Console.ResetColor();
+
             Console.WriteLine("PRIORIDADE MÉDIA");
+            Console.ForegroundColor = ConsoleColor.Yellow;
             foreach (Tarefa tarefa in tarefas)
             {
                 if (tarefa.TipoRelevancia == TipoRelevancia.Media && tarefa.Status == false)
@@ -259,7 +272,10 @@ namespace eAgenda.ModuloTarefa
                     Console.WriteLine("Ítens: \n" + tarefa.ListarItensTarefa());
                 }
             }
+            Console.ResetColor();
+
             Console.WriteLine("PRIORIDADE BAIXA");
+            Console.ForegroundColor = ConsoleColor.Green;
             foreach (Tarefa tarefa in tarefas)
             {
                 if (tarefa.TipoRelevancia == TipoRelevancia.Baixa && tarefa.Status == false)
@@ -269,6 +285,7 @@ namespace eAgenda.ModuloTarefa
                     Console.WriteLine("Ítens: \n" + tarefa.ListarItensTarefa());
                 }
             }
+            Console.ResetColor();
 
             Console.ReadLine();
 
@@ -310,9 +327,6 @@ namespace eAgenda.ModuloTarefa
         {
             string titulo = MetodosAuxiliares.ValidarInputString("Digite o título da tarefa: ");
 
-            DateTime dataCriacao = DateTime.Now;
-            Console.Write("Data de criação: " + dataCriacao + "\n");
-
             DateTime dataConclusao = MetodosAuxiliares.ValidarInputDate("Digite a data de conclusão: ");
 
             Console.Write("Escolha a relevância\n");
@@ -322,7 +336,6 @@ namespace eAgenda.ModuloTarefa
             List<Item> items = ObterItens();
 
             Tarefa novaTarefa = new Tarefa(titulo, 
-                dataCriacao, 
                 dataConclusao,
                 tipoRelevancia,
                 items
@@ -381,7 +394,6 @@ namespace eAgenda.ModuloTarefa
 
             do
             {
-                
                 numeroRegistro = MetodosAuxiliares.ValidarInputInt("Digite o ID da tarefa que deseja editar: ");
 
                 numeroRegistroEncontrado = repositorioTarefa.ExisteRegistro(numeroRegistro);
