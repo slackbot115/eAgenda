@@ -39,7 +39,7 @@ namespace eAgenda.ModuloCompromisso
 
             Console.WriteLine("Digite s para sair");
 
-            string opcao = Console.ReadLine();
+            string opcao = MetodosAuxiliares.ValidarInputString("Opção: ");
 
             return opcao;
         }
@@ -153,8 +153,7 @@ namespace eAgenda.ModuloCompromisso
             Console.WriteLine("3 - No mês atual");
             Console.WriteLine("4 - No ano atual");
             Console.WriteLine("5 - Entre certo periodo");
-            Console.Write("Digite a opção desejada: ");
-            string op = Console.ReadLine();
+            string op = MetodosAuxiliares.ValidarInputString("Digite a opção desejada: ");
             switch (op)
             {
                 case "1":
@@ -297,8 +296,7 @@ namespace eAgenda.ModuloCompromisso
                 return;
             }
 
-            Console.Write("Digite o ID do compromisso: ");
-            int numCompromissoSelecionado = Convert.ToInt32(Console.ReadLine());
+            int numCompromissoSelecionado = MetodosAuxiliares.ValidarInputInt("Digite o ID do compromisso: ");
 
             Console.WriteLine();
 
@@ -311,20 +309,15 @@ namespace eAgenda.ModuloCompromisso
 
         private Compromisso ObterCompromisso(Contato contato)
         {
-            Console.Write("Digite o assunto do compromisso: ");
-            string assunto = Console.ReadLine();
+            string assunto = MetodosAuxiliares.ValidarInputString("Digite o assunto do compromisso: ");
 
-            Console.Write("Digite o local do compromisso: ");
-            string local = Console.ReadLine();
+            string local = MetodosAuxiliares.ValidarInputString("Digite o local do compromisso: ");
 
-            Console.Write("Digite a data do compromisso: ");
-            DateTime dataCompromisso = DateTime.Parse(Console.ReadLine());
+            DateTime dataCompromisso = MetodosAuxiliares.ValidarInputDate("Digite a data do compromisso: ");
 
-            Console.Write("Digite a hora de inicio do compromisso: ");
-            string horaInicio = Console.ReadLine();
+            string horaInicio = MetodosAuxiliares.ValidarInputString("Digite a hora de inicio do compromisso: ");
 
-            Console.Write("Digite a hora de termino do compromisso: ");
-            string horaTermino = Console.ReadLine();
+            string horaTermino = MetodosAuxiliares.ValidarInputString("Digite a hora de termino do compromisso: ");
 
             return new Compromisso(assunto, local, dataCompromisso, horaInicio, horaTermino, contato);
         }
@@ -339,8 +332,7 @@ namespace eAgenda.ModuloCompromisso
                 return null;
             }
 
-            Console.Write("Digite o ID do contato: ");
-            int numContatoSelecionado = Convert.ToInt32(Console.ReadLine());
+            int numContatoSelecionado = MetodosAuxiliares.ValidarInputInt("Digite o ID do contato: ");
 
             Console.WriteLine();
 
@@ -356,8 +348,7 @@ namespace eAgenda.ModuloCompromisso
 
             do
             {
-                Console.Write("Digite o ID do compromisso que deseja editar: ");
-                numeroRegistro = Convert.ToInt32(Console.ReadLine());
+                numeroRegistro = MetodosAuxiliares.ValidarInputInt("Digite o ID do compromisso que deseja editar: ");
 
                 numeroRegistroEncontrado = repositorioCompromisso.ExisteRegistro(numeroRegistro);
 

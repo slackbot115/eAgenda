@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace eAgenda.ModuloTarefa
 {
@@ -36,7 +34,7 @@ namespace eAgenda.ModuloTarefa
 
             Console.WriteLine("Digite s para sair");
 
-            string opcao = Console.ReadLine();
+            string opcao = MetodosAuxiliares.ValidarInputString("Opção: ");
 
             return opcao;
         }
@@ -116,7 +114,7 @@ namespace eAgenda.ModuloTarefa
         public bool VisualizarRegistros(string tipoVisualizacao)
         {
             if (tipoVisualizacao == "Tela")
-                MostrarTitulo($"Visualização de Tarefas");
+                MostrarTitulo("Visualização de Tarefas");
 
             List<Tarefa> tarefas = repositorioTarefa.SelecionarTodos();
 
@@ -287,8 +285,7 @@ namespace eAgenda.ModuloTarefa
                 return;
             }
 
-            Console.Write("Digite o número da tarefa: ");
-            int numTarefaSelecionada = Convert.ToInt32(Console.ReadLine());
+            int numTarefaSelecionada = MetodosAuxiliares.ValidarInputInt("Digite o número da tarefa: ");
 
             Console.WriteLine();
 
@@ -301,8 +298,7 @@ namespace eAgenda.ModuloTarefa
                 Console.WriteLine("Deseja alterar o status deste item?");
                 Console.WriteLine(item.ToString()); 
                 Console.WriteLine("1 - Sim\n0 - Não");
-                Console.Write("Digite: ");
-                int op = int.Parse(Console.ReadLine());
+                int op = MetodosAuxiliares.ValidarInputInt("Digite: ");
                 if (op == 1)
                     item.AlterarStatus();
             }
@@ -312,14 +308,12 @@ namespace eAgenda.ModuloTarefa
 
         private Tarefa ObterTarefa()
         {
-            Console.Write("Digite o título da tarefa: ");
-            string titulo = Console.ReadLine();
+            string titulo = MetodosAuxiliares.ValidarInputString("Digite o título da tarefa: ");
 
             DateTime dataCriacao = DateTime.Now;
             Console.Write("Data de criação: " + dataCriacao + "\n");
 
-            Console.Write("Digite a data de conclusão: ");
-            DateTime dataConclusao = DateTime.Parse(Console.ReadLine());
+            DateTime dataConclusao = MetodosAuxiliares.ValidarInputDate("Digite a data de conclusão: ");
 
             Console.Write("Escolha a relevância\n");
             TipoRelevancia tipoRelevancia = ObterTipoRelevancia();
@@ -347,8 +341,7 @@ namespace eAgenda.ModuloTarefa
             int relevancia;
             while (true)
             {
-                Console.Write("Digite a opção: ");
-                relevancia = int.Parse(Console.ReadLine());
+                relevancia = MetodosAuxiliares.ValidarInputInt("Digite a opção: ");
                 if (relevancia != 0 || relevancia != 1 || relevancia != 2)
                     break;
                 else
@@ -365,15 +358,13 @@ namespace eAgenda.ModuloTarefa
 
             while (true)
             {
-                Console.WriteLine("Digite a descrição: ");
-                string descricao = Console.ReadLine();
+                string descricao = MetodosAuxiliares.ValidarInputString("Digite a descrição: ");
 
                 Item novoItem = new Item(descricao);
                 repositorioItem.Inserir(novoItem);
 
                 Console.WriteLine("Item cadastrado com sucesso, deseja criar mais itens?");
-                Console.WriteLine("1 - Sim\n0 - Não");
-                int op = int.Parse(Console.ReadLine());
+                int op = MetodosAuxiliares.ValidarInputInt("1 - Sim\n0 - Não\n");
                 if (op == 1)
                     continue;
                 else
@@ -390,13 +381,13 @@ namespace eAgenda.ModuloTarefa
 
             do
             {
-                Console.Write($"Digite o ID da tarefa que deseja editar: ");
-                numeroRegistro = Convert.ToInt32(Console.ReadLine());
+                
+                numeroRegistro = MetodosAuxiliares.ValidarInputInt("Digite o ID da tarefa que deseja editar: ");
 
                 numeroRegistroEncontrado = repositorioTarefa.ExisteRegistro(numeroRegistro);
 
                 if (numeroRegistroEncontrado == false)
-                    notificador.ApresentarMensagem($"ID da tarefa não foi encontrado, digite novamente", TipoMensagem.Atencao);
+                    notificador.ApresentarMensagem("ID da tarefa não foi encontrado, digite novamente", TipoMensagem.Atencao);
 
             } while (numeroRegistroEncontrado == false);
 

@@ -99,22 +99,17 @@ namespace eAgenda.ModuloContato
 
         private Contato ObterContato()
         {
-            Console.Write("Digite o nome do contato: ");
-            string nome = Console.ReadLine();
-            
-            Console.Write("Digite o email do contato: ");
-            string email = Console.ReadLine();
+            string nome = MetodosAuxiliares.ValidarInputString("Digite o nome do contato: ");
 
-            Console.Write("Digite o telefone do contato: ");
-            string telefone = Console.ReadLine();
+            string email = MetodosAuxiliares.ValidarInputString("Digite o email do contato: ");
 
-            Console.Write("Digite a empresa do contato: ");
-            string empresa = Console.ReadLine();
+            string telefone = MetodosAuxiliares.ValidarNumeroTelefone();
 
-            Console.Write("Digite o cargo do contato: ");
-            string cargo = Console.ReadLine();
+            string empresa = MetodosAuxiliares.ValidarInputString("Digite a empresa do contato: ");
 
-            return new Contato(nome, telefone, email, empresa, cargo);
+            string cargo = MetodosAuxiliares.ValidarInputString("Digite o cargo do contato: ");
+
+            return new Contato(nome, email, telefone, empresa, cargo);
         }
 
         public int ObterNumeroRegistro()
@@ -124,8 +119,7 @@ namespace eAgenda.ModuloContato
 
             do
             {
-                Console.Write("Digite o ID do contato que deseja editar: ");
-                numeroRegistro = Convert.ToInt32(Console.ReadLine());
+                numeroRegistro = MetodosAuxiliares.ValidarInputInt("Digite o ID do contato que deseja editar: ");
 
                 numeroRegistroEncontrado = repositorioContato.ExisteRegistro(numeroRegistro);
 
