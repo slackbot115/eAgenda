@@ -9,6 +9,45 @@ namespace eAgenda.Compartilhado
 {
     public static class MetodosAuxiliares
     {
+        public static string ValidarEmail()
+        {
+            string email;
+            while (true)
+            {
+                Console.Write("Digite o email (emails validos somente com dominio): ");
+                email = Console.ReadLine();
+                try
+                {
+                    if (FormatarEmail(email) != null)
+                    {
+                        return FormatarEmail(email);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Email inválido, digite novamente...");
+                        continue;
+                    }
+                }
+                catch
+                {
+                    Console.WriteLine("Input inválido, tente novamente...");
+                }
+            }
+        }
+
+        private static string FormatarEmail(string email)
+        {
+            var verificarRegex = Regex.Match(email, @"^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$");
+            if (verificarRegex.Success)
+            {
+                return Regex.Replace(email, @"^(\d{2})[ -]?(\d{5})[ -]?(\d{4})", @"($1) $2-$3");
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public static string ValidarNumeroTelefone()
         {
             string numero;
@@ -35,7 +74,7 @@ namespace eAgenda.Compartilhado
             }
         }
 
-        public static string FormatarNumeroTelefone(string numero)
+        private static string FormatarNumeroTelefone(string numero)
         {
             string numeroSemLetras = RemoverLetras(numero);
             var verificarRegex = Regex.Match(numeroSemLetras, @"^\(?[1-9]{2}\)? ?(?:[2-8]|9[1-9])[0-9]{3}\-?[0-9]{4}$");

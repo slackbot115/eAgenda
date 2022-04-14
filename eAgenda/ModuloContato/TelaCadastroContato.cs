@@ -101,7 +101,7 @@ namespace eAgenda.ModuloContato
         {
             string nome = MetodosAuxiliares.ValidarInputString("Digite o nome do contato: ");
 
-            string email = MetodosAuxiliares.ValidarInputString("Digite o email do contato: ");
+            string email = MetodosAuxiliares.ValidarEmail();
 
             string telefone = MetodosAuxiliares.ValidarNumeroTelefone();
 
