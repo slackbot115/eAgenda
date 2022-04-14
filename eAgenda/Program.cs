@@ -68,15 +68,18 @@ namespace eAgenda
                 telaCadastroTarefa.VisualizarRegistros("Tela");
 
             else if (opcaoSelecionada == "5")
-                telaCadastroTarefa.AlterarStatusItens();
+                telaCadastroTarefa.AdicionarNovosItens();
 
             else if (opcaoSelecionada == "6")
-                telaCadastroTarefa.VisualizarTarefasPorPrioridade();
+                telaCadastroTarefa.AlterarStatusItens();
 
             else if (opcaoSelecionada == "7")
-                telaCadastroTarefa.VisualizarTarefasFinalizadas();
+                telaCadastroTarefa.VisualizarTarefasPorPrioridade();
 
             else if (opcaoSelecionada == "8")
+                telaCadastroTarefa.VisualizarTarefasFinalizadas();
+
+            else if (opcaoSelecionada == "9")
                 telaCadastroTarefa.VisualizarTarefasAgrupadas();
         }
 

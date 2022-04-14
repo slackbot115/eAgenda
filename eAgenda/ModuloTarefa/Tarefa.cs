@@ -49,6 +49,8 @@ namespace eAgenda.ModuloTarefa
 
         public override string ToString()
         {
+            string status = Status ? "Finalizado!" : "Em progresso...";
+
             return "ID: " + id + Environment.NewLine +
                 "Título: " + Titulo + Environment.NewLine +
                 "Prioridade: " + TipoRelevancia + Environment.NewLine +
@@ -56,7 +58,7 @@ namespace eAgenda.ModuloTarefa
                 "Data de Conclusão: " + DataConclusao + Environment.NewLine +
                 "\nItens: \n" + ListarItensTarefa() +
                 $"Percentual concluído: {ObterCompletude(Itens)}%" + Environment.NewLine +
-                "Finalizado?: " + Status + Environment.NewLine;
+                "Status: " + status + Environment.NewLine;
         }
 
         private double ObterCompletude(List<Item> itensTarefa)

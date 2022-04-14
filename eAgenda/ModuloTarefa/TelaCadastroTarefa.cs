@@ -27,10 +27,11 @@ namespace eAgenda.ModuloTarefa
             Console.WriteLine("Digite 2 para Editar");
             Console.WriteLine("Digite 3 para Excluir");
             Console.WriteLine("Digite 4 para Visualizar");
-            Console.WriteLine("Digite 5 para Alterar status dos itens de uma tarefa");
-            Console.WriteLine("Digite 6 para Visualizar por prioridade");
-            Console.WriteLine("Digite 7 para Visualizar finalizadas");
-            Console.WriteLine("Digite 8 para Visualizar tarefas agrupadas");
+            Console.WriteLine("Digite 5 para Adicionar novos itens");
+            Console.WriteLine("Digite 6 para Alterar status dos itens de uma tarefa");
+            Console.WriteLine("Digite 7 para Visualizar por prioridade");
+            Console.WriteLine("Digite 8 para Visualizar finalizadas");
+            Console.WriteLine("Digite 9 para Visualizar tarefas agrupadas");
 
             Console.WriteLine("Digite s para sair");
 
@@ -363,6 +364,37 @@ namespace eAgenda.ModuloTarefa
             TipoRelevancia tipoRelevancia = (TipoRelevancia)relevancia;
 
             return tipoRelevancia;
+        }
+
+        public void AdicionarNovosItens()
+        {
+            MostrarTitulo("Inserindo novos itens");
+
+            bool temTarefasCadastradas = VisualizarRegistros("Pesquisando");
+
+            if (temTarefasCadastradas == false)
+            {
+                notificador.ApresentarMensagem("Nenhuma tarefa cadastrada para editar.", TipoMensagem.Atencao);
+                return;
+            }
+
+            int numeroTarefa = ObterNumeroRegistro();
+            Tarefa tarefaSelecionada = repositorioTarefa.SelecionarRegistro(numeroTarefa);
+
+            while (true)
+            {
+                string descricao = MetodosAuxiliares.ValidarInputString("Digite a descrição: ");
+
+                Item novoItem = new Item(descricao);
+                tarefaSelecionada.Itens.Add(novoItem);
+
+                Console.WriteLine("Item cadastrado com sucesso, deseja criar mais itens?");
+                int op = MetodosAuxiliares.ValidarInputInt("1 - Sim\n0 - Não\n");
+                if (op == 1)
+                    continue;
+                else
+                    break;
+            }
         }
 
         private List<Item> ObterItens()

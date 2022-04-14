@@ -38,6 +38,8 @@ namespace eAgenda.ModuloCompromisso
 
         public override string ToString()
         {
+            string status = Status ? "Finalizado!" : "Em progresso...";
+
             return "ID: " + id + Environment.NewLine +
                 "Assunto: " + Assunto + Environment.NewLine +
                 "Local: " + Local + Environment.NewLine +
@@ -45,7 +47,7 @@ namespace eAgenda.ModuloCompromisso
                 "Data do Compromisso: " + DataCompromisso + Environment.NewLine +
                 "Hora de Inicio: " + HoraInicio + Environment.NewLine +
                 "Hora de Termino: " + HoraTermino + Environment.NewLine +
-                "Finalizado?: " + Status + Environment.NewLine;
+                "Status: " + status + Environment.NewLine;
         }
 
         public void AlterarStatusCompromisso()

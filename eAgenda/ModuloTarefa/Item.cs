@@ -29,8 +29,10 @@ namespace eAgenda.ModuloTarefa
 
         public override string ToString()
         {
+            string status = Status ? "Finalizado!" : "Em progresso...";
+
             return "Descrição: " + descricao + Environment.NewLine +
-                "Finalizado?: " + Status + Environment.NewLine;
+                "Status: " + status + Environment.NewLine;
         }
 
     }
